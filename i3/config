@@ -1,0 +1,210 @@
+#
+# Should you change your keyboard layout some time, delete
+# this file and re-run i3-config-wizard(1).
+#
+
+# previously used: Roboto (Light) 9
+
+set $font       Overpass
+set $font_type   Regular
+set $font_size   10
+# set $bg_color    #1f222d00
+set $bg_color	#ffffff00
+set $text_color_darkbg	#ABABAB
+set $text_color_lightbg	#ffffff80
+set $inner_gap  20
+set $outer_gap  5
+set $border_size  2
+set $bg_image /home/step/design/newsic\ \(Spotify\)/2016/2016-10/Material/photo-1476362555312-ab9e108a0b7e.jpe
+
+
+font pango:$font $font_type $font_size
+client.focused          #ffffffff #285577 #ffffff #ffffff   #ffffffff
+client.background	#000000
+
+# gaps
+gaps inner $inner_gap
+gaps outer $outer_gap
+
+# borders
+for_window [class="^.*"] border pixel $border_size
+hide_edge_borders both
+new_window pixel $border_size
+
+# start nautilus 
+bindsym $mod+space exec --no-startup-id nautilus
+
+# start terminal
+bindsym $mod+Return exec --no-startup-id xfce4-terminal
+
+# start dmenu (program launcher)
+bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu='dmenu -i -fn "$font-$font_size+2:$font_type" -nb "#1f222d" -sb "#1f222d" -sf "#ffffff" -o "0.85" -dim "0" -q -y 1055 -h 30 -p "start: "'
+
+
+# i3bar
+bar {
+	tray_padding 0
+	# use -t for transparent background (beware: background of tray icons will always be 100% transparent!)
+	i3bar_command i3bar -t
+
+	position bottom
+	separator_symbol "   "
+
+	status_command py3status -c ~/.config/i3/i3status.conf
+
+	colors {
+		background $bg_color
+	  	statusline $text_color_lightbg
+	  	inactive_workspace $bg_color $bg_color #ffffff70
+		focused_workspace $bg_color $bg_color #ffffff
+	}
+}
+
+# screenlock
+bindsym $mod+shift+x exec --no-startup-id ~/.config/i3/lock.sh
+
+# sound management
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse set Master toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse set Master 2%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse set Master 2%-
+
+# control music
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+# screenshot
+bindsym --release Print exec xfce4-screenshooter
+
+# autostart
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id nm-applet
+exec --no-startup-id redshift-gtk
+exec_always --no-startup-id  ~/.config/i3/i3-autoname-workspaces.py &
+exec --no-startup-id clipit
+exec --no-startup-id dropbox
+exec --no-startup-id compton -f --config ~/.config/compton.conf &
+
+# brightness control
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 3
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 3
+
+# wallpaper (make sure to omit using bg-scale regarding aspect ratio)
+exec_always --no-startup-id feh --bg-fill  $bg_image
+
+# handling of external displays (always buggy and tons of fun)
+#exec_always xrandr --output HDMI1 --mode 1920x1080 --auto --right-of eDP1
+#workspace 1 output HDMI1
+
+
+
+# pure i3 settings
+
+
+set $mod Mod4
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# kill focused window
+bindsym $mod+shift+q kill
+
+bindsym $mod+button3 --whole-window floating toggle
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+#bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+y focus parent
+
+# focus the child container
+bindsym $mod+x focus child
+
+# WORKSPACES
+set $ws1 number 1
+set $ws2 number 2
+set $ws3 number 3
+set $ws4 number 4
+set $ws5 number 5
+set $ws6 number 6
+set $ws7 number 7
+set $ws8 number 8
+set $ws9 number 9
+set $ws10 number 10
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+bindsym $mod+m bar mode toggle
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
